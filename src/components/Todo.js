@@ -1,6 +1,4 @@
-import Button from "@atlaskit/button";
 import React, { useState } from "react";
-import CheckIcon from "@atlaskit/icon/glyph/check";
 
 
 export default function Todo({ todo, onCheckBtnClick, onDeleteBtnClick, onEditBtnClick }) {
