@@ -41,10 +41,28 @@ function App() {
   const onCheckBtnClick = useCallback((id) => {
     setTodoList((prevState) =>
       prevState.map((todo) =>
-        todo.id === id ? { ...todo, isCompleted: true } : todo
+        todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
       )
     );
   }, []);
+
+  // { ...todo } = { name: todo.name, isCompleted: todo.isCompleted } , { isCompleted: !todo.isCompleted }
+
+  const onDeleteBtnClick = (id) => {
+    setTodoList((prevState) =>
+      prevState.filter((todo) => 
+        todo.id !== id
+      )
+    )
+  };
+
+  const onEditBtnClick = (id, taskName) => {
+    setTodoList((prevState) =>
+      prevState.map((todo) => 
+        todo.id === id ? { ...todo, name: taskName } : todo
+      )
+    )
+  };
 
   return (
     <>
@@ -65,7 +83,7 @@ function App() {
         value={textInput}
         onChange={onTextInputChange}
       ></Textfield>
-      <TodoList todoList={todoList} onCheckBtnClick={onCheckBtnClick} />
+      <TodoList todoList={todoList} onCheckBtnClick={onCheckBtnClick} onDeleteBtnClick={onDeleteBtnClick} onEditBtnClick={onEditBtnClick}/>
     </>
   );
 }

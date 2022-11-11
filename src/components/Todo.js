@@ -1,46 +1,28 @@
 import Button from "@atlaskit/button";
-import React from "react";
-import styled, { css } from "styled-components";
+import React, { useState } from "react";
 import CheckIcon from "@atlaskit/icon/glyph/check";
 
-const ButtonStyled = styled(Button)`
-  margin-top: 5px;
-  text-align: left;
-  &,
-  &:hover {
-    ${(p) =>
-      p.isCompleted &&
-      css`
-        text-decoration: line-through;
-      `}
-  }
-  &:hover {
-    .check-icon {
-      display: inline-block;
-    }
-  }
-  .check-icon {
-    display: none;
-    &:hover {
-      background-color: #e2e2e2;
-      border-radius: 3px;
-    }
-  }
-`;
 
-export default function Todo({ todo, onCheckBtnClick }) {
+export default function Todo({ todo, onCheckBtnClick, onDeleteBtnClick, onEditBtnClick }) {
+  const [taskName, setTaskName] = useState(todo.name)
+
+
+  function handleTaskInputChange(e) {
+    setTaskName(e.target.value)
+  }
+
+  function handleEditClick() {
+    onEditBtnClick(todo.id, taskName)
+  }
+
   return (
-    <ButtonStyled
-      shouldFitContainer
-      iconAfter={
-        !todo.isCompleted && (
-          <span className='check-icon' onClick={() => onCheckBtnClick(todo.id)}>
-            <CheckIcon primaryColor='#4fff4f' />
-          </span>
-        )
-      }
-    >
-      {todo.name}
-    </ButtonStyled>
+    <>
+      <div className="wrapper">
+        <input className={todo.isCompleted ? 'completed input' : 'input'} value={taskName} onChange={handleTaskInputChange} />
+        <button className="button-1" onClick={() => onCheckBtnClick(todo.id)}>Check</button>
+        <button className="button-1" onClick={() => onDeleteBtnClick(todo.id)}>Delete</button>
+        <button className="button-1" onClick={handleEditClick}>Edit</button>
+      </div>
+    </>
   );
 }
